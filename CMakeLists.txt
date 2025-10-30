@@ -7,9 +7,9 @@ include_directories(.)
 
 add_executable(3A
         bounded_buffer_hw.h
-        bounded_buffer_hw_template.cpp
+        bounded_buffer_hw.cpp
         bounded_buffer_os.h
-        bounded_buffer_os_template.cpp
+        bounded_buffer_os.cpp
         driver.cpp
         semaphore.cpp
         semaphore.h

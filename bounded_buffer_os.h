@@ -10,6 +10,7 @@ class BoundedBufferOS {
   ~BoundedBufferOS( );            /* Deconstruct a given bounded buffer */
   void insert( int item );        /* Insert an item into the rear of shared buffer */
   int remove( );                  /* Remove and return the first item from buffer sp */
+
  private:
   int *buf;                       /* Buffer array */
   int n;                          /* Maximum number of slots */

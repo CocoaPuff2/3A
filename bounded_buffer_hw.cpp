@@ -21,13 +21,15 @@ BoundedBufferHW::~BoundedBufferHW( ) {
 /* Insert item onto the rear of shared buffer sp */
 void BoundedBufferHW::insert( int item ) {
   /* Implement by yourself */
+  // todo
  }
 
 /* Remove and return the first item from buffer sp */
 int BoundedBufferHW::remove( )
 {
  int item;
-  /* Implement by yourself */  
+  /* Implement by yourself */
+  // todo
  return item;
  }
 

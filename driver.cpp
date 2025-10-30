@@ -5,6 +5,16 @@
 #include "bounded_buffer_hw.h"
 #include "bounded_buffer_os.h"
 
+// Desc:  M I P
+//       M = 1 (HW), = 2 (OS); I = #items to exchange; P = 0: no print, = 1 print
+//     main( ) spawns two threads, calling producer( ) and consumer( ) respectively.
+//      Depending on mode (1 == HW or 2 == OS), each thread calls
+//              hBuf.insert( i ) and oBuf.insert( i )
+//          or
+//              hBuf.remove( i ) and oBuf.removeI i )
+//      where hBuf is a bounded buffer with HW semaphores,
+//      whereas oBuf is one with OS semaphores.
+
 #define MAX 10  // Default number of items if not specified in command line
 
 int mode = 0;  // 1 = HW version, 2 = OS version

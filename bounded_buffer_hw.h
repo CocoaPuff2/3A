@@ -10,7 +10,8 @@ class BoundedBufferHW {
   ~BoundedBufferHW( );            /* Deconstruct a given bounded buffer */
   void insert( int item );        /* Insert an item into the rear of shared buffer */
   int remove( );                  /* Remove and return the first item from buffer sp */
- private:
+
+private:
   Semaphore sem_m, sem_f, sem_e;  /* semaphores, each bound to mutex, full, and empty */
   int *buf;                       /* Buffer array */
   int n;                          /* Maximum number of slots */

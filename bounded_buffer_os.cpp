@@ -20,6 +20,7 @@ BoundedBufferOS::~BoundedBufferOS( ) {
 /* Insert item onto the rear of shared buffer sp */
 void BoundedBufferOS::insert( int item ) {
   /* Implement by yourself */
+  // todo
  }
 
 /* Remove and return the first item from buffer sp */
@@ -27,6 +28,7 @@ int BoundedBufferOS::remove( )
 {
  int item;
  /* Implement by yourself */
+ // todo
  return item;
  }
 

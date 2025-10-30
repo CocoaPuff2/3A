@@ -3,6 +3,11 @@
 #include <stdlib.h>   // atoi
 #include <pthread.h>  // pthread_create, pthread_join
 
+//  Desc:
+//  test-and-set test program that increments the cnt variable from 0 to 99 among a
+//  given number of threads in a non-interruptible fashion. It serves as a test-and-set
+//  example but is irrelevant to your programming work.
+
 using namespace std;
 
 // atomic_flag = special atomic type that can only be true or false
