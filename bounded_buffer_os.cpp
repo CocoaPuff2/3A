@@ -14,21 +14,50 @@ BoundedBufferOS::BoundedBufferOS( int bufsize ) {
 
 /* Clean up buffer sp */
 BoundedBufferOS::~BoundedBufferOS( ) {
+    // delete[] buf
   delete buf;
 }
 
 /* Insert item onto the rear of shared buffer sp */
 void BoundedBufferOS::insert( int item ) {
-  /* Implement by yourself */
-  // todo
+    // 1. Wait for at least one empty slot
+    sem_wait(&full); // waits if buffer full
+
+    // 2; Enter Critical Section
+    sem_wait(&mutex); // locks buffer, acquire lock
+
+    // 3. Insert Item at rear / end pos
+    buf[rear] = item;
+    rear = (rear + 1) % n;    // move forward in circular way
+
+    // 4. Leave Critical Section
+    sem_post(&mutex); // release / unlock buffer
+
+    // 5. Signal: new item now availible!
+    sem_post(&empty); // filled slots ++
+
  }
 
 /* Remove and return the first item from buffer sp */
-int BoundedBufferOS::remove( )
-{
- int item;
- /* Implement by yourself */
- // todo
- return item;
+int BoundedBufferOS::remove( ) {
+    int item;
+
+    // 1. Wait for a filled slot
+    sem_wait(&empty);
+
+    // 2. Enter Critical Section
+    sem_wait(&mutex);
+
+    // 3. Remove item from front
+    item = buf[front];
+    front = (front + 1) % n;
+
+    // 4. Leave Critical Section
+    sem_post(&mutex);
+
+    // 5. Signal: One more free slot
+    sem_post(&full);
+
+    return item;
  }
 
