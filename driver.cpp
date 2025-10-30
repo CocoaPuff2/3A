@@ -5,11 +5,12 @@
 #include "bounded_buffer_hw.h"
 #include "bounded_buffer_os.h"
 
-#define MAX 10
+#define MAX 10  // Default number of items if not specified in command line
 
-int mode = 0;
-int nItems = MAX;
-int print = 0;
+int mode = 0;  // 1 = HW version, 2 = OS version
+int nItems = MAX; // Total number of items to produce/consume
+int print = 0; // 0 = no output, 1 = print each item
+
 BoundedBufferHW hBuf( 100 );
 BoundedBufferOS oBuf( 100 );
 
@@ -18,8 +19,8 @@ void *producer( void *arg ) {
   
   for ( int i = 0; i < nItems; i++ ) {
     switch( mode ) {
-    case 1: hBuf.insert( i ); break;
-    case 2: oBuf.insert( i ); break;
+    case 1: hBuf.insert( i ); break; // HW-based synchronization
+    case 2: oBuf.insert( i ); break; // OS-based synchronization
     default: cerr << "wrong mode" << endl; exit( -1 );
     }
   }
@@ -68,8 +69,8 @@ int main( int argc, char **argv ) {
   clock_t start = clock( );
   /* Create threads and wait for them to finish */
   pthread_t tid1, tid2;
-  pthread_create( &tid1, NULL, producer, NULL );
-  pthread_create( &tid2, NULL, consumer, NULL );
+  pthread_create( &tid1, NULL, producer, NULL ); // Start producer thread
+  pthread_create( &tid2, NULL, consumer, NULL ); // Start consumer thread
 
   // Set the affinity to thread 1
   if ( pthread_setaffinity_np(tid1, sizeof(cpu_set_t), &cpuset_1) != 0 ) {
@@ -83,8 +84,8 @@ int main( int argc, char **argv ) {
     return -1;
   }
   
-  pthread_join( tid1, NULL );
-  pthread_join( tid2, NULL );
+  pthread_join( tid1, NULL ); // Wait for producer to finish
+  pthread_join( tid2, NULL ); // Wait for consumer to finish
   // finish the timer
   clock_t end = clock( );
 

@@ -5,23 +5,34 @@
 
 using namespace std;
 
+// atomic_flag = special atomic type that can only be true or false
+// used as spinlock for  mutual exclusion
+//      (only one thread enters the critical section at a time)
 atomic_flag lock = ATOMIC_FLAG_INIT;
 
+// shared counter that all threads will increment
 static int cnt = 0;
 
+// thread function to increment counter
 void *inc( void* arg ) {
-  int tid = *(int *)arg;
-  while ( true ) {
+  int tid = *(int *)arg; // get the thread ID (logical number passed from main)
+  while ( true ) { // infinte loop, threads will break out once cnt reaches 100
     while ( atomic_flag_test_and_set_explicit( &lock, memory_order_acquire ) )
       ;
+
+    //  ---- Critical Section Start ----
+      // only one thread can execute this part at a time
     if ( cnt < 100 ) {
       cout << cnt++ << ": output from thread " << tid << endl;
+      // release lock, new thread can enter
       atomic_flag_clear_explicit( &lock, memory_order_release );      
     }
     else {
+      // if cnt >= 100, unlock and exit the loop (thread done)
       atomic_flag_clear_explicit( &lock, memory_order_release );
       break;
     }
+      // ---- Critical Section End ----
   }
 
   return NULL;
